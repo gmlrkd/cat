@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: cat
+Bundle-SymbolicName: cat
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.myneko.client.cat.vo,
+ com.myneko.client.member.vo

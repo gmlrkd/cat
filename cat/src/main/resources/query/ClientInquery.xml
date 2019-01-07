@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myneko.client.inquery.dao.InqueryDAO">
+
+	<sql id="InqueryCommon">
+		select i_number, i_title, i_date, i_whether, m_number
+		from inquiry where m_number = #{m_number, jdbcType=VARCHAR}
+		<choose>
+			<when test="search != null and search != ''">
+				<if test="search == i_title">
+					and i_title like '%' || #{keyword} || '%'
+				</if>
+				<if test="search == i_content">
+					and i_content like '%' || #{keyword} || '%'
+				</if>
+			</when>
+		</choose>
+	</sql>
+
+	<select id="InqueryListCnt"
+		parameterType="com.myneko.client.inquery.vo.InqueryVO"
+		resultType="int">
+		select NVL(count(1), 0)from
+		( select list.*, rownum as rnum
+		from (
+			select * from inquiry
+			where m_number = #{m_number, jdbcType=INTEGER}
+			<choose>
+				<when test="search == i_title">
+					and i_title like '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				</when>
+				<when test="search == i_content">
+					and i_content like '%' || #{keyword, jdbcType=VARCHAR} || '%'
+				</when>
+			</choose>
+			order by i_number desc
+		) list
+		)
+	</select>
+
+	<!-- 게시물 전체 조회 -->
+	<select id="InqueryList"
+		resultType="com.myneko.client.inquery.vo.InqueryVO"
+		parameterType="int">
+		select i_number, i_title, i_whether,
+		to_char(i_date,'YYYY-MM-DD
+		HH24:MI:SS')AS i_date
+		from(
+		select list.*, rownum as rnum
+		from (
+		<include refid="InqueryCommon"></include>
+		order by i_number desc
+		) list
+		)
+		<where>
+			<if test="start_row != null and start_row != ''">
+				<if test="end_row != null and end_row != ''">
+					rnum between #{start_row} and #{end_row}
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<!-- 상세 페이지 위한 게시물 조회 -->
+	<select id="InqueryDetail"
+		parameterType="com.myneko.client.inquery.vo.InqueryVO"
+		resultType="com.myneko.client.inquery.vo.InqueryVO">
+		select * from INQUIRY where i_number = #{i_number}
+	</select>
+
+	<!-- 게시물 등록 -->
+	<insert id="Inqueryinsert"
+		parameterType="com.myneko.client.inquery.vo.InqueryVO">
+		insert into
+		INQUIRY(i_number, m_number, i_content,
+		i_image, i_title, i_whether)
+		values(inquiry_seq.nextval, #{m_number},
+		#{i_content, jdbcType=VARCHAR},
+		#{i_image, jdbcType=VARCHAR},
+		#{i_title, jdbcType=VARCHAR}, #{i_whether})
+	</insert>
+
+	<delete id="InqueryDelete" parameterType="int">
+		delete from INQUIRY
+		where i_number = #{i_number}
+	</delete>
+
+	<!-- 게시물 수정 -->
+	<update id="InUpdate"
+		parameterType="com.myneko.client.common.vo.CommonVO">
+		update inquiry set i_title = #{i_title}
+		, i_content =
+		#{i_content}
+		, i_date = sysdate
+		where i_number = #{i_number}
+	</update>
+</mapper>

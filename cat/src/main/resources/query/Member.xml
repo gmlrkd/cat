@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myneko.client.member.dao.MemberDAO">
+
+	<insert id="insertMember"
+		parameterType="com.myneko.client.member.vo.MemberVO">
+		insert into
+		member(m_number,m_name,m_phone,m_password,m_id,m_zipcode,m_address,m_email,m_milage)
+		values(member_seq.nextval,#{m_name},#{m_phone},#{m_password},#{m_id},#{m_zipcode},#{m_address},#{m_email},0)
+	</insert>
+
+	<select id="loginMember"
+		parameterType="com.myneko.client.member.vo.MemberVO"
+		resultType="com.myneko.client.member.vo.MemberVO">
+		select m_number,m_name,nvl(m_state,'비회원') as m_state,m_phone,m_password,m_id,m_zipcode,m_address,m_email,m_milage,m_register from member right outer join dual on m_id= #{m_id} and m_password =
+		#{m_password}
+	</select>
+
+	<select id="idOverlapChk" parameterType="java.lang.String"
+		resultType="int">
+		select count(*) from member where m_id=#{id}
+	</select>
+	<update id="updatePassword"
+		parameterType="com.myneko.client.member.vo.MemberVO">
+		update member set m_password =#{m_password} where m_number = #{m_number}
+	</update>
+	<update id="addressModifi">
+		update member set m_zipcode = #{m_zipcode},m_address = #{m_address} where
+		m_number = #{m_number}
+	</update>
+	<update id="modifi">
+		update member set m_name = #{m_name},m_phone = #{m_phone},m_email=#{m_email}
+		where m_number = #{m_number}
+	</update>
+	<update id="withdrawal" parameterType="com.myneko.client.member.vo.MemberVO">
+	update member set m_state ='탈퇴' where m_number = #{m_number};
+	</update>
+</mapper>

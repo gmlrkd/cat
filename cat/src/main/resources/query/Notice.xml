@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myneko.client.notice.dao.NoticeDAO">
+<select id="noticeList" resultType="com.myneko.client.notice.vo.NoticeVO">
+select * from notice
+</select>
+<select id="noticeCount" parameterType="com.myneko.client.notice.vo.NoticeVO" resultType="int">
+select NVL(count(1), 0)from
+		( select list.*, rownum as rnum
+		from (
+			select * from notice
+			order by n_number desc
+		) list
+		)
+</select>
+<select id="noticeDetail" parameterType="com.myneko.client.notice.vo.NoticeVO" resultType="com.myneko.client.notice.vo.NoticeVO">
+select *  from notice where n_number = #{n_number}
+</select>
+</mapper>

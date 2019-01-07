@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="base"
+		template="/WEB-INF/views/template/client/mainLayout.jsp">
+		<put-attribute name="title" value="우리집 고양이" />
+		<put-attribute name="header"
+			value="/WEB-INF/views/template/client/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/template/client/footer.jsp" />
+	</definition>
+
+	<definition name="/*/*" extends="base">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+	<definition name="*/*" extends="base">
+		<put-attribute name="body"
+			value="/WEB-INF/views/{1}/{2}.jsp" />
+	</definition>
+
+
+	<!-- <definition name="basic" template="/WEB-INF/views/template/admin/contentLayout.jsp"> 
+		<put-attribute name="title" value="관리자 페이지" /> <put-attribute name="header" 
+		value="/WEB-INF/views/template/admin/header.jsp" /> <put-attribute name="footer" 
+		value="/WEB-INF/views/template/admin/footer.jsp" /> <put-attribute name="main" 
+		value="" /> </definition> <definition name="product.list" extends="basic"> 
+		<put-attribute name="main" value="/WEB-INF/views/admin/product/productList.jsp"></put-attribute> 
+		</definition> <definition name="product.regform" extends="basic"> <put-attribute 
+		name="main" value="/WEB-INF/views/admin/product/productRegForm.jsp"></put-attribute> 
+		</definition> <definition name="product.detail" extends="basic"> <put-attribute 
+		name="main" value="/WEB-INF/views/admin/product/productDetail.jsp"></put-attribute> 
+		</definition> <definition name="product.mod" extends="basic"> <put-attribute 
+		name="main" value="/WEB-INF/views/admin/product/productModForm.jsp"></put-attribute> 
+		</definition> -->
+
+</tiles-definitions>

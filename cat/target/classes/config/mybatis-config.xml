@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.myneko.client.catcare.vo.CatcareVO"
+			alias="catcare" />
+		<typeAlias type="com.myneko.client.carereply.vo.CareReplyVO"
+			alias="reply" />
+		<typeAlias type="com.myneko.client.cart.vo.CartVO"
+			alias="cart" />
+		<typeAlias type="com.myneko.client.faqboard.vo.FaqboardVO"
+			alias="faq" />
+		<typeAlias type="com.myneko.client.boast.vo.BoastVO"
+			alias="bvo" />
+	</typeAliases>
+</configuration>
